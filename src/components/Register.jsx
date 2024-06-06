@@ -1,24 +1,19 @@
 import { Box, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
-import axios from 'axios';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../slices/userSlice';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async event => {
     event.preventDefault();
-    try {
-      await axios.post('https://connections-api.herokuapp.com/users/signup', {
-        email,
-        password,
-      });
-      navigate('/login');
-    } catch (error) {
-      console.error('Registration failed:', error);
-    }
+    await dispatch(registerUser({ email, password }));
+    navigate('/login');
   };
 
   return (
