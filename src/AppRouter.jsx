@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Contacts from './components/Contacts';
 import Login from './components/Login';
 import Navigation from './components/Navigation';
+import NotFound from './components/NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import Register from './components/Register';
@@ -43,8 +44,8 @@ const AppRouter = () => (
           </PrivateRoute>
         }
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
-    <Route path="*" element={<NotFound />} />
   </Router>
 );
 
