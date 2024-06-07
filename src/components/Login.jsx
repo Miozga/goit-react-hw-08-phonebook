@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -9,38 +9,29 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loginError, setLoginError] = useState(null);
 
   const handleSubmit = async event => {
     event.preventDefault();
-    await dispatch(loginUser({ email, password }));
-    navigate('/contacts');
+    setLoginError(null);
+    const result = await dispatch(loginUser({ email, password }));
+
+    if (result.type === loginUser.fulfilled) {
+      navigate('/contacts');
+    } else if (result.type === loginUser.rejected) {
+      setLoginError(result.error.message);
+    }
   };
 
   return (
     <Box width="400px" margin="0 auto" mt="50px">
-      <form onSubmit={handleSubmit}>
-        <FormControl id="email" mb="4">
-          <FormLabel>Email</FormLabel>
-          <Input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-        </FormControl>
-        <FormControl id="password" mb="4">
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-        </FormControl>
-        <Button type="submit" colorScheme="blue" width="full">
-          Login
-        </Button>
-      </form>
+      {loginError && (
+        <Alert status="error" mb="4">
+          <AlertIcon />
+          {loginError}
+        </Alert>
+      )}
+      <form onSubmit={handleSubmit}>{}</form>
     </Box>
   );
 };

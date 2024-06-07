@@ -1,13 +1,15 @@
 import { Box, Button, Text } from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../slices/userSlice';
+import { logoutUser } from '../slices/userSlice';
 
 const UserMenu = () => {
   const user = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Dodanie useNavigate
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    navigate('/login'); // Przekierowanie po wylogowaniu
   };
 
   return (

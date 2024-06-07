@@ -1,38 +1,38 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios from '../axios';
 
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async credentials => {
-    const response = await axios.post(
-      'https://connections-api.herokuapp.com/users/login',
-      credentials
-    );
+    const response = await axios.post('/users/login', credentials);
+    const { token, user } = response.data;
+    localStorage.setItem('token', token);
+    return user;
+  }
+);
+
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
+  async credentials => {
+    const response = await axios.post('/users/signup', credentials);
     return response.data;
   }
 );
 
+export const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+  await axios.post('/users/logout');
+  localStorage.removeItem('token');
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState: null,
-  reducers: {
-    setUser(state, action) {
-      return action.payload;
-    },
-    logout(state) {
-      return null;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(loginUser.fulfilled, (state, action) => {
-        return action.payload;
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        console.error('Login failed:', action.error.message);
-      });
+      .addCase(loginUser.fulfilled, (state, action) => action.payload)
+      .addCase(logoutUser.fulfilled, () => null);
   },
 });
 
-export const { setUser, logout } = userSlice.actions;
 export default userSlice.reducer;
