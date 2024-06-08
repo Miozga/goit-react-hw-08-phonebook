@@ -7,6 +7,8 @@ import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import Register from './components/Register';
 
+import UserMenu from './components/UserMenu';
+
 const AppRouter = () => (
   <Router>
     <Navigation />

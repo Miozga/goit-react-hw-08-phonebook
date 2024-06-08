@@ -1,19 +1,17 @@
-import { Provider } from 'react-redux';
 import './book.css';
-import ContactForm from './components/ContactForm';
-import ContactList from './components/ContactList';
-import Filter from './components/Filter';
+import './index.css';
+
+import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import 'src/styles/index.css';
+import AppRouter from './AppRouter';
 import store from './store';
 
 const App = () => (
   <Provider store={store}>
-    <div className="container">
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </div>
+    <ChakraProvider>
+      <AppRouter />
+    </ChakraProvider>
   </Provider>
 );
 
