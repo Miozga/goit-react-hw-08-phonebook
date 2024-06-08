@@ -1,4 +1,12 @@
-import { Alert, AlertIcon, Box } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,9 +24,9 @@ const Login = () => {
     setLoginError(null);
     const result = await dispatch(loginUser({ email, password }));
 
-    if (result.type === loginUser.fulfilled) {
+    if (loginUser.fulfilled.match(result)) {
       navigate('/contacts');
-    } else if (result.type === loginUser.rejected) {
+    } else if (loginUser.rejected.match(result)) {
       setLoginError(result.error.message);
     }
   };
@@ -31,7 +39,29 @@ const Login = () => {
           {loginError}
         </Alert>
       )}
-      <form onSubmit={handleSubmit}>{}</form>
+      <form onSubmit={handleSubmit}>
+        <FormControl id="email" mb="4">
+          <FormLabel>Email</FormLabel>
+          <Input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+          />
+        </FormControl>
+        <FormControl id="password" mb="4">
+          <FormLabel>Password</FormLabel>
+          <Input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+        </FormControl>
+        <Button type="submit" colorScheme="blue" width="full">
+          Login
+        </Button>
+      </form>
     </Box>
   );
 };
