@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from '../axios';
 
-// Rejestracja użytkownika
 export const registerUser = createAsyncThunk(
   'user/registerUser',
   async (credentials, { rejectWithValue }) => {
@@ -17,7 +16,6 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-// Logowanie użytkownika
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async (credentials, { rejectWithValue }) => {

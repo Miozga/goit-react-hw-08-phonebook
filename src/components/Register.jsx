@@ -25,7 +25,10 @@ const Register = () => {
     setRegisterError(null);
     try {
       console.log('Registering with:', { name, email, password });
-      await dispatch(registerUser({ name, email, password })).unwrap();
+      const resultAction = await dispatch(
+        registerUser({ name, email, password })
+      ).unwrap();
+      console.log('Registration successful:', resultAction);
       navigate('/login');
     } catch (err) {
       console.error('Registration failed:', err);

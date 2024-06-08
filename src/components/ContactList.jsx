@@ -13,10 +13,6 @@ const ContactList = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log(contacts);
-  }, [contacts]);
-
   const filteredContacts =
     contacts &&
     contacts.filter(contact => {

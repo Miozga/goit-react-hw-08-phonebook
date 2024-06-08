@@ -15,19 +15,23 @@ import { loginUser } from '../slices/userSlice';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loginError, setLoginError] = useState(null);
 
   const handleSubmit = async event => {
     event.preventDefault();
     setLoginError(null);
-    const result = await dispatch(loginUser({ email, password }));
-
-    if (loginUser.fulfilled.match(result)) {
+    try {
+      console.log('Logging in with:', { email, password });
+      const resultAction = await dispatch(
+        loginUser({ email, password })
+      ).unwrap();
+      console.log('Login successful:', resultAction);
       navigate('/contacts');
-    } else if (loginUser.rejected.match(result)) {
-      setLoginError(result.error.message);
+    } catch (err) {
+      console.error('Login failed:', err);
+      setLoginError(err.message);
     }
   };
 
@@ -47,7 +51,7 @@ const Login = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
-            autoComplete="email" // Dodanie atrybutu autocomplete
+            autoComplete="email"
           />
         </FormControl>
         <FormControl id="password" mb="4">
@@ -57,7 +61,7 @@ const Login = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
-            autoComplete="current-password" // Dodanie atrybutu autocomplete
+            autoComplete="current-password"
           />
         </FormControl>
         <Button type="submit" colorScheme="blue" width="full">
