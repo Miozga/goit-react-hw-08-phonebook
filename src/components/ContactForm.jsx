@@ -29,7 +29,7 @@ const ContactForm = () => {
       <input
         type="text"
         name="name"
-        pattern="^[a-zA-Zа-яА-Я]+(([\s-'])[a-zA-Zа-яА-Я]+)*$"
+        pattern="^[a-zA-Z\u0400-\u04FF]+(([' -][a-zA-Z\u0400-\u04FF])?[a-zA-Z\u0400-\u04FF]*)*$"
         title="Imię może zawierać tylko litery, apostrof, myślnik i spacje. Na przykład Adrian, Jakub Kowalski, Karol de Batz de Castelmore d'Artagnan"
         required
         value={name}
@@ -39,7 +39,7 @@ const ContactForm = () => {
       <input
         type="tel"
         name="number"
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+        pattern="^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$"
         title="Numer telefonu musi składać się z cyfr i może zawierać spacje, myślniki, nawiasy i zaczynać się od +"
         required
         value={number}

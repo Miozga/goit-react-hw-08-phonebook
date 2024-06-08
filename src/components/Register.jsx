@@ -26,6 +26,7 @@ const Register = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
+            autoComplete="email"
           />
         </FormControl>
         <FormControl id="password" mb="4">
@@ -35,6 +36,7 @@ const Register = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
+            autoComplete="new-password"
           />
         </FormControl>
         <Button type="submit" colorScheme="blue" width="full">

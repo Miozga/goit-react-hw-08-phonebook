@@ -1,5 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Contacts from './components/Contacts';
+import HomePage from './components/HomePage';
 import Login from './components/Login';
 import Navigation from './components/Navigation';
 import NotFound from './components/NotFound';
@@ -11,6 +12,7 @@ const AppRouter = () => (
   <Router>
     <Navigation />
     <Routes>
+      <Route path="/" element={<HomePage />} />
       <Route
         path="/login"
         element={
@@ -29,6 +31,14 @@ const AppRouter = () => (
       />
       <Route
         path="/contacts"
+        element={
+          <PrivateRoute>
+            <Contacts />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
         element={
           <PrivateRoute>
             <Contacts />

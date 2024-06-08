@@ -47,6 +47,7 @@ const Login = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
+            autoComplete="email" // Dodanie atrybutu autocomplete
           />
         </FormControl>
         <FormControl id="password" mb="4">
@@ -56,6 +57,7 @@ const Login = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
+            autoComplete="current-password" // Dodanie atrybutu autocomplete
           />
         </FormControl>
         <Button type="submit" colorScheme="blue" width="full">
