@@ -1,24 +1,57 @@
-import { Box, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import {
+  Alert,
+  AlertIcon,
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../slices/userSlice';
 
 const Register = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [registerError, setRegisterError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async event => {
     event.preventDefault();
-    await dispatch(registerUser({ email, password }));
-    navigate('/login');
+    setRegisterError(null);
+    try {
+      console.log('Registering with:', { name, email, password });
+      await dispatch(registerUser({ name, email, password })).unwrap();
+      navigate('/login');
+    } catch (err) {
+      console.error('Registration failed:', err);
+      setRegisterError(err.message);
+    }
   };
 
   return (
     <Box width="400px" margin="0 auto" mt="50px">
+      {registerError && (
+        <Alert status="error" mb="4">
+          <AlertIcon />
+          {registerError}
+        </Alert>
+      )}
       <form onSubmit={handleSubmit}>
+        <FormControl id="name" mb="4">
+          <FormLabel>Name</FormLabel>
+          <Input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            required
+            autoComplete="name"
+          />
+        </FormControl>
         <FormControl id="email" mb="4">
           <FormLabel>Email</FormLabel>
           <Input

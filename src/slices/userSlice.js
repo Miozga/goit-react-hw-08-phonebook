@@ -1,21 +1,37 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from '../axios';
 
-export const loginUser = createAsyncThunk(
-  'user/loginUser',
-  async credentials => {
-    const response = await axios.post('/users/login', credentials);
-    const { token, user } = response.data;
-    localStorage.setItem('token', token);
-    return user;
+// Rejestracja użytkownika
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/users/signup', credentials);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
-export const registerUser = createAsyncThunk(
-  'user/registerUser',
-  async credentials => {
-    const response = await axios.post('/users/signup', credentials);
-    return response.data;
+// Logowanie użytkownika
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/users/login', credentials);
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      return user;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -30,6 +46,7 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
+      .addCase(registerUser.fulfilled, (state, action) => action.payload)
       .addCase(loginUser.fulfilled, (state, action) => action.payload)
       .addCase(logoutUser.fulfilled, () => null);
   },
